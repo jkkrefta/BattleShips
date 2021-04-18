@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CCode.BattleShips.Core
+namespace CCode.BattleShips.Core.Exceptions
 {
     public class InvalidHitCoordinateException : Exception
     {

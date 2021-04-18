@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using CCode.BattleShips.Core.Exceptions;
 
 namespace CCode.BattleShips.Core
 {
@@ -32,15 +33,15 @@ namespace CCode.BattleShips.Core
         {
             switch (label.Length)
             {
-                case 2 when Matches2CharLabelRule(label):
-                case 3 when Matches3CharLabelRule(label):
+                case 2 when DoNotMatch2CharLabelRule(label):
+                case 3 when DoNotMatch3CharLabelRule(label):
                     throw new InvalidCoordinateException(
                         $"{label} does not match battleships rule. Expected example: A1, J10, C6, F7");
             }
         }
 
-        private static bool Matches3CharLabelRule(string label) => !new Regex(@"[A-J]10").IsMatch(label);
+        private static bool DoNotMatch3CharLabelRule(string label) => !new Regex(@"[A-J]10").IsMatch(label);
 
-        private static bool Matches2CharLabelRule(string label) => !new Regex(@"[A-J][1-9]").IsMatch(label);
+        private static bool DoNotMatch2CharLabelRule(string label) => !new Regex(@"[A-J][1-9]").IsMatch(label);
     }
 }

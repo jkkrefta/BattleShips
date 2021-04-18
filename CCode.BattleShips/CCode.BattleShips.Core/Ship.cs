@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CCode.BattleShips.Core.Exceptions;
 
 namespace CCode.BattleShips.Core
 {

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using CCode.BattleShips.Core.Exceptions;
+using NUnit.Framework;
 using Shouldly;
 
 namespace CCode.BattleShips.Core.Tests
