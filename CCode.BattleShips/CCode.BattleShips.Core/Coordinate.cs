@@ -14,6 +14,8 @@ namespace CCode.BattleShips.Core
             Label = label;
         }
 
+        public override string ToString() => Label;
+
         private static void IsNotNullOrEmpty(string label)
         {
             if (string.IsNullOrEmpty(label))

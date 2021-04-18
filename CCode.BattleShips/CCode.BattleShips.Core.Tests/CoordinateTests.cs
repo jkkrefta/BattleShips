@@ -5,6 +5,9 @@ namespace CCode.BattleShips.Core.Tests
 {
     public class CoordinateTests
     {
+        private const string B2 = "B2";
+        private const string F7 = "F7";
+
         [Test]
         public void Coordinate_GivenNullString_Throws()
         {
@@ -42,24 +45,36 @@ namespace CCode.BattleShips.Core.Tests
         [TestCase("J10")]
         public void Coordinate_GivenStringMatchingLabelRule_CreatesInstance(string givenLabel)
         {
-            var coordinate = new Coordinate(givenLabel);
-            coordinate.Label.ShouldBeEquivalentTo(givenLabel);
+            new Coordinate(givenLabel).Label.ShouldBeEquivalentTo(givenLabel);
+        }
+        
+        [Test]
+        public void Coordinate_Equals_GivenOtherNonCoordinateObject_ReturnsFalse()
+        {
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            new Coordinate(B2).Equals("Some string").ShouldBeFalse();
         }
         
         [Test]
         public void Coordinate_Equals_GivenOtherCoordinateWithDifferentLabel_ReturnsFalse()
         {
-            var coordinate = new Coordinate("B2");
-            var otherCoordinate = new Coordinate("F7");
+            var coordinate = new Coordinate(B2);
+            var otherCoordinate = new Coordinate(F7);
             coordinate.Equals(otherCoordinate).ShouldBeFalse();
         }
         
         [Test]
         public void Coordinate_Equals_GivenOtherCoordinateWithEqualLabel_ReturnsTrue()
         {
-            var coordinate = new Coordinate("F7");
-            var otherCoordinate = new Coordinate("F7");
+            var coordinate = new Coordinate(F7);
+            var otherCoordinate = new Coordinate(F7);
             coordinate.Equals(otherCoordinate).ShouldBeTrue();
+        }
+        
+        [Test]
+        public void Coordinate_ToString_ReturnsLabel()
+        {
+            new Coordinate(F7).ToString().ShouldBeEquivalentTo(F7);
         }
     }
 }
