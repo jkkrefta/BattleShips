@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCode.BattleShips.Console", "CCode.BattleShips.Console\CCode.BattleShips.Console.csproj", "{73D6B218-DF5E-4FB4-95A3-B33C4485B808}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCode.BattleShips.Core", "CCode.BattleShips.Core\CCode.BattleShips.Core.csproj", "{31CF38B4-2E36-4223-A3A5-8D909AEF936B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCode.BattleShips.Core.Tests", "CCode.BattleShips.Core.Tests\CCode.BattleShips.Core.Tests.csproj", "{83AE338F-2441-446E-882E-31AABD70666E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73D6B218-DF5E-4FB4-95A3-B33C4485B808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73D6B218-DF5E-4FB4-95A3-B33C4485B808}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73D6B218-DF5E-4FB4-95A3-B33C4485B808}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73D6B218-DF5E-4FB4-95A3-B33C4485B808}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31CF38B4-2E36-4223-A3A5-8D909AEF936B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31CF38B4-2E36-4223-A3A5-8D909AEF936B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31CF38B4-2E36-4223-A3A5-8D909AEF936B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31CF38B4-2E36-4223-A3A5-8D909AEF936B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83AE338F-2441-446E-882E-31AABD70666E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83AE338F-2441-446E-882E-31AABD70666E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83AE338F-2441-446E-882E-31AABD70666E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83AE338F-2441-446E-882E-31AABD70666E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
