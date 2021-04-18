@@ -9,18 +9,15 @@ namespace CCode.BattleShips.Core.Tests
     {
         private Ship _ship;
         private readonly Coordinate _j10 = new("J10");
+        private readonly Coordinate _c2 = new("C2");
+        private readonly Coordinate _c3 = new("C3");
         private readonly Coordinate _c4 = new("C4");
+        private readonly Coordinate _c5 = new("C5");
 
         [SetUp]
         public void Setup()
         {
-            _ship = new Ship(ShipType.Destroyer, new List<Coordinate>
-            {
-                new("C2"),
-                new("C3"),
-                _c4,
-                new("C5")
-            });
+            _ship = new Ship(ShipType.Destroyer, new List<Coordinate> {_c2, _c3, _c4, _c5});
         }
         
         [Test]
@@ -66,6 +63,29 @@ namespace CCode.BattleShips.Core.Tests
         {
             _ship.RegisterHit(_c4);
             _ship.WasHit(_c4).ShouldBeTrue();
+        }
+        
+        [Test]
+        public void IsSunk_WhenNoHitsOccured_ReturnsFalse()
+        {
+            _ship.IsSunk.ShouldBeFalse();
+        }
+        
+        [Test]
+        public void IsSunk_WhenSomeHitsOccured_ReturnsFalse()
+        {
+            _ship.RegisterHit(_c4);
+            _ship.IsSunk.ShouldBeFalse();
+        }
+        
+        [Test]
+        public void IsSunk_WhenEveryShipCoordinateWasHits_ReturnsTrue()
+        {
+            _ship.RegisterHit(_c2);
+            _ship.RegisterHit(_c3);
+            _ship.RegisterHit(_c4);
+            _ship.RegisterHit(_c5);
+            _ship.IsSunk.ShouldBeTrue();
         }
     }
 }

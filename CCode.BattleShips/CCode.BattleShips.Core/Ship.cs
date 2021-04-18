@@ -8,6 +8,7 @@ namespace CCode.BattleShips.Core
         public ShipType Type { get; }
         public List<Coordinate> Coordinates { get; }
         public List<Coordinate> Hits { get; }
+        public bool IsSunk => Coordinates.Count == Hits.Count;
 
         public Ship(ShipType type, List<Coordinate> coordinates)
         {
