@@ -8,6 +8,7 @@ namespace CCode.BattleShips.Core.Tests
     {
         private const string B2 = "B2";
         private const string F7 = "F7";
+        private const string J10 = "J10";
 
         [Test]
         public void Coordinate_GivenNullString_Throws()
@@ -76,6 +77,19 @@ namespace CCode.BattleShips.Core.Tests
         public void Coordinate_ToString_ReturnsLabel()
         {
             new Coordinate(F7).ToString().ShouldBeEquivalentTo(F7);
+        }
+        
+        [Test]
+        public void Coordinate_GetY_ReturnsInt()
+        {
+            new Coordinate(F7).GetY().ShouldBeEquivalentTo((int)'F');
+        }
+        
+        [TestCase(B2, 2)]
+        [TestCase(J10, 10)]
+        public void Coordinate_GetX_ReturnsInt(string givenLabel, int expectedValue)
+        {
+            new Coordinate(givenLabel).GetX().ShouldBeEquivalentTo(expectedValue);
         }
     }
 }

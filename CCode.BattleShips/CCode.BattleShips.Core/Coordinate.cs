@@ -1,11 +1,12 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using CCode.BattleShips.Core.Exceptions;
 
 namespace CCode.BattleShips.Core
 {
     public record Coordinate
     {
-        public readonly string Label;
+        public string Label { get; }
         
         public Coordinate(string label)
         {
@@ -15,8 +16,12 @@ namespace CCode.BattleShips.Core
             Label = label;
         }
 
-        public override string ToString() => Label;
+        public int GetY() => Label[0];
 
+        public int GetX() => int.Parse(Label[1..]);
+
+        public override string ToString() => Label;
+        
         private static void IsNotNullOrEmpty(string label)
         {
             if (string.IsNullOrEmpty(label))
