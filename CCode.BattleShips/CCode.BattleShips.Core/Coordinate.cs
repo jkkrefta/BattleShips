@@ -2,7 +2,7 @@
 
 namespace CCode.BattleShips.Core
 {
-    public readonly struct Coordinate
+    public record Coordinate
     {
         public readonly string Label;
         

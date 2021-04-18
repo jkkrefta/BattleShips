@@ -45,5 +45,21 @@ namespace CCode.BattleShips.Core.Tests
             var coordinate = new Coordinate(givenLabel);
             coordinate.Label.ShouldBeEquivalentTo(givenLabel);
         }
+        
+        [Test]
+        public void Coordinate_Equals_GivenOtherCoordinateWithDifferentLabel_ReturnsFalse()
+        {
+            var coordinate = new Coordinate("B2");
+            var otherCoordinate = new Coordinate("F7");
+            coordinate.Equals(otherCoordinate).ShouldBeFalse();
+        }
+        
+        [Test]
+        public void Coordinate_Equals_GivenOtherCoordinateWithEqualLabel_ReturnsTrue()
+        {
+            var coordinate = new Coordinate("F7");
+            var otherCoordinate = new Coordinate("F7");
+            coordinate.Equals(otherCoordinate).ShouldBeTrue();
+        }
     }
 }
