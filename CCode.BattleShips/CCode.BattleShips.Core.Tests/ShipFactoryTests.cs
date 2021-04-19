@@ -8,7 +8,7 @@ namespace CCode.BattleShips.Core.Tests
 {
     public class ShipFactoryTests
     {
-        private ShipFactory _shipFactory = new ShipFactory(new ShipLayoutValidator());
+        private readonly ShipFactory _shipFactory = new(new ShipLayoutValidator());
         
         private readonly Coordinate _c2 = new("C2");
         private readonly Coordinate _c3 = new("C3");
