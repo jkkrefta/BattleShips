@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using CCode.BattleShips.Core.Exceptions;
 
 namespace CCode.BattleShips.Core
@@ -7,7 +6,7 @@ namespace CCode.BattleShips.Core
     public record Coordinate
     {
         public string Label { get; }
-        
+
         public Coordinate(string label)
         {
             IsNotNullOrEmpty(label);
@@ -16,12 +15,11 @@ namespace CCode.BattleShips.Core
             Label = label;
         }
 
-        public int GetY() => Label[0];
-
-        public int GetX() => int.Parse(Label[1..]);
+        public int Y => Label[0];
+        public int X => int.Parse(Label[1..]);
 
         public override string ToString() => Label;
-        
+
         private static void IsNotNullOrEmpty(string label)
         {
             if (string.IsNullOrEmpty(label))

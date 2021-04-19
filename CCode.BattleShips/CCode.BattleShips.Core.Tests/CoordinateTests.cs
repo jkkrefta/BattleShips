@@ -82,14 +82,14 @@ namespace CCode.BattleShips.Core.Tests
         [Test]
         public void Coordinate_GetY_ReturnsInt()
         {
-            new Coordinate(F7).GetY().ShouldBeEquivalentTo((int)'F');
+            new Coordinate(F7).Y.ShouldBeEquivalentTo((int)'F');
         }
         
         [TestCase(B2, 2)]
         [TestCase(J10, 10)]
         public void Coordinate_GetX_ReturnsInt(string givenLabel, int expectedValue)
         {
-            new Coordinate(givenLabel).GetX().ShouldBeEquivalentTo(expectedValue);
+            new Coordinate(givenLabel).X.ShouldBeEquivalentTo(expectedValue);
         }
     }
 }

@@ -14,8 +14,8 @@ namespace CCode.BattleShips.Core
     {
         public void ValidateShipLayout(List<Coordinate> coordinates)
         {
-            var isInHorizontalLine = AreContinousValues(coordinates.Select(x => x.GetX()));
-            var isInVerticalLine = AreContinousValues(coordinates.Select(x => x.GetY()));
+            var isInHorizontalLine = AreContinousValues(coordinates.Select(x => x.X));
+            var isInVerticalLine = AreContinousValues(coordinates.Select(x => x.Y));
             if (!isInHorizontalLine && !isInVerticalLine || isInHorizontalLine && isInVerticalLine)
             {
                 throw new InvalidCoordinateException(
@@ -35,7 +35,7 @@ namespace CCode.BattleShips.Core
         {
             var values = series.ToList();
             values.Sort();
-            
+
             var i = 0;
             while (i + 1 < values.Count)
             {
@@ -46,7 +46,7 @@ namespace CCode.BattleShips.Core
 
                 i++;
             }
-            
+
             return true;
         }
     }
