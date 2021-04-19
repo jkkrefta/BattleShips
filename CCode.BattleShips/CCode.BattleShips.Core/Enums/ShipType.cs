@@ -1,4 +1,4 @@
-﻿namespace CCode.BattleShips.Core
+﻿namespace CCode.BattleShips.Core.Enums
 {
     public enum ShipType
     {

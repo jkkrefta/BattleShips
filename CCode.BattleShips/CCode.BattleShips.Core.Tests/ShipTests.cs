@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using CCode.BattleShips.Core.Enums;
 using CCode.BattleShips.Core.Exceptions;
+using CCode.BattleShips.Core.Models;
 using NUnit.Framework;
 using Shouldly;
 

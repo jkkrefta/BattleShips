@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using CCode.BattleShips.Core.Enums;
 using CCode.BattleShips.Core.Exceptions;
 
-namespace CCode.BattleShips.Core
+namespace CCode.BattleShips.Core.Models
 {
     public class Ship
     {

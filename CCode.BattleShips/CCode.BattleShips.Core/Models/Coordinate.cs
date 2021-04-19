@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using CCode.BattleShips.Core.Exceptions;
 
-namespace CCode.BattleShips.Core
+namespace CCode.BattleShips.Core.Models
 {
     public record Coordinate
     {

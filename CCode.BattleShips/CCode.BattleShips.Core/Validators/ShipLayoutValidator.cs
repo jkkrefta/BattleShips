@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CCode.BattleShips.Core.Exceptions;
+using CCode.BattleShips.Core.Models;
 
-namespace CCode.BattleShips.Core
+namespace CCode.BattleShips.Core.Validators
 {
     public interface IShipLayoutValidator
     {
