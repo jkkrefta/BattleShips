@@ -18,12 +18,19 @@ namespace CCode.BattleShips.Core.Models
             Hits = new List<Coordinate>();
         }
         
+        public bool TryHit(Coordinate coordinate)
+        {
+            if (!IsWithinShipCoordinates(coordinate) || HasHitOn(coordinate)) return false;
+            RegisterHit(coordinate);
+            return true;
+        }
+        
         public bool IsWithinShipCoordinates(Coordinate coordinate)
         {
             return Coordinates.Exists(x => x.Equals(coordinate));
         }
         
-        public bool WasHit(Coordinate coordinate)
+        public bool HasHitOn(Coordinate coordinate)
         {
             return Hits.Exists(x => x.Equals(coordinate));
         }

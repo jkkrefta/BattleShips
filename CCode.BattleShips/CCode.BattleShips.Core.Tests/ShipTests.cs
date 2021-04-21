@@ -35,16 +35,16 @@ namespace CCode.BattleShips.Core.Tests
         }
         
         [Test]
-        public void WasHit_GivenCoordinateThatDoesNotMatchShipCoordinates_ReturnsFalse()
+        public void HasHitOn_GivenCoordinateThatDoesNotMatchShipCoordinates_ReturnsFalse()
         {
-            _ship.WasHit(_j10).ShouldBeFalse();
+            _ship.HasHitOn(_j10).ShouldBeFalse();
         }
         
         [Test]
-        public void WasHit_GivenCoordinateThatDoesMatchShipCoordinates_ReturnsTrue()
+        public void HasHitOn_GivenCoordinateThatDoesMatchShipCoordinates_ReturnsTrue()
         {
             _ship.RegisterHit(_c4);
-            _ship.WasHit(_c4).ShouldBeTrue();
+            _ship.HasHitOn(_c4).ShouldBeTrue();
         }
         
         [Test]
@@ -64,7 +64,7 @@ namespace CCode.BattleShips.Core.Tests
         public void RegisterHit_GivenCoordinateWithinShipBounds_RegistersHit()
         {
             _ship.RegisterHit(_c4);
-            _ship.WasHit(_c4).ShouldBeTrue();
+            _ship.HasHitOn(_c4).ShouldBeTrue();
         }
         
         [Test]
