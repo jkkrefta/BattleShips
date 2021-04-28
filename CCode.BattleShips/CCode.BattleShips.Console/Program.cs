@@ -1,5 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using CCode.BattleShips.Core.Factories;
+using CCode.BattleShips.Core.Generators;
+using CCode.BattleShips.Core.Services;
+using CCode.BattleShips.Core.Validators;
+using CCode.BattleShips.Gui.Components.Windows;
 using Terminal.Gui;
 
 namespace CCode.BattleShips.Console
@@ -8,62 +12,40 @@ namespace CCode.BattleShips.Console
     {
         static void Main()
         {
+            IGameService gameService = CreateGameService();
+            new ComputerPlayerService(gameService, new Random());
+            gameService.CreateNewGame();
             Application.Init ();
-            
-            var menu = new MenuBar(new MenuBarItem[]
-            {
-                new MenuBarItem("_BattleShips", new MenuItem[]
-                {
-                    new MenuItem("_NewGame", "", () => { Application.RequestStop(); }),
-                    new MenuItem("_Quit", "", () => { Application.RequestStop(); })
-                }),
-            });
-            
-            var win = new Window("")
-            {
-                X = 0,
-                Y = 1,
-                Width = Dim.Fill(),
-                Height = Dim.Fill() - 1
-            };
-
-            CreateWaterBoard(win, 2, 2, "Home Zone");
-            CreateWaterBoard(win, 60, 2, "Enemy Zone");
-            
-            Application.Top.Add (menu, win);
+            Application.Top.Add (CreateMenu(), CreateWindow(gameService));
+            gameService.StartGame();
             Application.Run ();
         }
 
-        private static void CreateWaterBoard(View view, int x, int y, string zoneName)
+        private static GameService CreateGameService()
         {
-            view.Add(new Label(x, y, zoneName));
-            GenerateCollection(10, yy => new Label(0 + x, yy * 2 + 2 + y, "─────────────────────────────────────────────────────")).ForEach(view.Add);
-            GenerateCollection(10, xx => new Label(xx * 5 + 5 + x, 1 + y, $"{xx+1}")).ForEach(view.Add);
-            GenerateCollection(10, yy => new Label(1 + x, yy * 2 + 3 + y, $"{(char)('A'+yy)}")).ForEach(view.Add);
-            Generate2DCollection(10, 10, (xx, yy) => new Button(xx * 5 + 3 + x, yy * 2 + 3 + y, " ")).ForEach(view.Add);
+            return new(new GameFactory(
+                new PopulatedWatersFactory(new ShipFactory(new ShipLayoutValidator()),
+                    new CoordinateFactory(new Random()))));
         }
-        
-        private static List<T> GenerateCollection<T>(int numberOfElements, Func<int, T> creationFunction)
+
+        private static MenuBar CreateMenu()
         {
-            var collection = new List<T>();
-            for (var i = 0; i < numberOfElements; i++)
+            return new(new MenuBarItem[]
             {
-                collection.Add(creationFunction.Invoke(i));
-            }
-            return collection;
-        }
-        
-        private static List<T> Generate2DCollection<T>(int numberOfCols, int numberOfRows, Func<int, int, T> creationFunction)
-        {
-            var collection = new List<T>();
-            for (var i = 0; i < numberOfCols; i++)
-            {
-                for (var j = 0; j < numberOfRows; j++)
+                new("_BattleShips", new MenuItem[]
                 {
-                    collection.Add(creationFunction.Invoke(i, j));
-                }
-            }
-            return collection;
+                    new("_Quit", "", Application.RequestStop)
+                })
+            });
+        }
+
+        private static Window CreateWindow(IGameService gameService)
+        {
+            var window = new Window("") {X = 0, Y = 1};
+            window.Add(new DisplayOnlyWaterBoardWindow(0, 0, gameService).Window);
+            window.Add(new ShootingWaterBoardWindow(62, 0, gameService).Window);
+            window.Add(new BattleLogWindow(0, 13, gameService).Window);
+            return window;
         }
     }
 }

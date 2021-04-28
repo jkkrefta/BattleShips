@@ -7,15 +7,17 @@ namespace CCode.BattleShips.Core.DTO
     {
         public HitType HitType { get; }
         public Ship HitShip { get; }
+        public Coordinate Coordinate { get; }
 
-        private ShotResult(HitType hitType, Ship hitShip = null)
+        private ShotResult(Coordinate coordinate, HitType hitType, Ship hitShip = null)
         {
+            Coordinate = coordinate;
             HitType = hitType;
             HitShip = hitShip;
         }
 
-        public static ShotResult CreateMiss() => new ShotResult(HitType.Miss);
-        public static ShotResult CreateHit(Ship hitShip) => new ShotResult(HitType.Hit, hitShip);
-        public static ShotResult CreateSunkShip(Ship hitShip) => new ShotResult(HitType.SunkShip, hitShip);
+        public static ShotResult CreateMiss(Coordinate coordinate) => new ShotResult(coordinate, HitType.Miss);
+        public static ShotResult CreateHit(Coordinate coordinate, Ship hitShip) => new ShotResult(coordinate, HitType.Hit, hitShip);
+        public static ShotResult CreateSunkShip(Coordinate coordinate, Ship hitShip) => new ShotResult(coordinate, HitType.SunkShip, hitShip);
     }
 }

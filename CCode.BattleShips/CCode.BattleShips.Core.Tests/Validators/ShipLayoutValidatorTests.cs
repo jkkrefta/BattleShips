@@ -5,7 +5,7 @@ using CCode.BattleShips.Core.Validators;
 using NUnit.Framework;
 using Shouldly;
 
-namespace CCode.BattleShips.Core.Tests
+namespace CCode.BattleShips.Core.Tests.Validators
 {
     public class ShipLayoutValidatorTests
     {

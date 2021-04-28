@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CCode.BattleShips.Core.Enums;
+using CCode.BattleShips.Core.Constants;
 using CCode.BattleShips.Core.Exceptions;
 using CCode.BattleShips.Core.Factories;
 using CCode.BattleShips.Core.Models;
@@ -8,7 +8,7 @@ using CCode.BattleShips.Core.Validators;
 using NUnit.Framework;
 using Shouldly;
 
-namespace CCode.BattleShips.Core.Tests
+namespace CCode.BattleShips.Core.Tests.Factories
 {
     public class ShipFactoryTests
     {
@@ -23,25 +23,25 @@ namespace CCode.BattleShips.Core.Tests
         [Test]
         public void Create_GivenDestroyerAndNullCoordinates_Throws()
         {
-            Should.Throw<ArgumentNullException>(() => _shipFactory.Create(ShipType.Destroyer, null));
+            Should.Throw<ArgumentNullException>(() => _shipFactory.Create(ShipDefinitions.Destroyer, null));
         }
 
         [Test]
-        public void Create_GivenUndefinedTypeAndCoordinates_Throws()
+        public void Create_GivenNullAndCoordinates_Throws()
         {
-            Should.Throw<InvalidShipTypeException>(() => _shipFactory.Create(ShipType.Undefined, new List<Coordinate>{_c2, _c3}));
+            Should.Throw<ArgumentNullException>(() => _shipFactory.Create(null, new List<Coordinate>{_c2, _c3}));
         }
 
         [Test]
         public void Create_GivenDestroyerAnd2Coordinates_Throws()
         {
-            Should.Throw<InvalidCoordinateException>(() => _shipFactory.Create(ShipType.Destroyer, new List<Coordinate>{_c2, _c3}));
+            Should.Throw<InvalidCoordinateException>(() => _shipFactory.Create(ShipDefinitions.Destroyer, new List<Coordinate>{_c2, _c3}));
         }
         
         [Test]
         public void Create_GivenDestroyerAnd5Coordinates_Throws()
         {
-            Should.Throw<InvalidCoordinateException>(() => _shipFactory.Create(ShipType.Destroyer, new List<Coordinate>{_c2, _c3, _c4, _c5, _c6}));
+            Should.Throw<InvalidCoordinateException>(() => _shipFactory.Create(ShipDefinitions.Destroyer, new List<Coordinate>{_c2, _c3, _c4, _c5, _c6}));
         }
     }
 }

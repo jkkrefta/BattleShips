@@ -3,7 +3,7 @@ using CCode.BattleShips.Core.Models;
 using NUnit.Framework;
 using Shouldly;
 
-namespace CCode.BattleShips.Core.Tests
+namespace CCode.BattleShips.Core.Tests.Models
 {
     public class CoordinateTests
     {
@@ -51,6 +51,24 @@ namespace CCode.BattleShips.Core.Tests
             new Coordinate(givenLabel).Label.ShouldBeEquivalentTo(givenLabel);
         }
         
+        [TestCase(1, 10)]
+        [TestCase(10, 1)]
+        [TestCase(5, 5)]
+        public void Coordinate_GivenProperYX_ShouldNotThrow(int x, int y)
+        {
+            new Coordinate(x, y);
+        }
+        
+        [TestCase(0, 10)]
+        [TestCase(1, 11)]
+        [TestCase(10, 0)]
+        [TestCase(11, 0)]
+        [TestCase(100, -1)]
+        public void Coordinate_GivenOutOfRangeYX_ShouldThrow(int x, int y)
+        {
+            Should.Throw<InvalidCoordinateException>(() => new Coordinate(x, y));
+        }
+        
         [Test]
         public void Coordinate_Equals_GivenOtherNonCoordinateObject_ReturnsFalse()
         {
@@ -83,7 +101,7 @@ namespace CCode.BattleShips.Core.Tests
         [Test]
         public void Coordinate_GetY_ReturnsInt()
         {
-            new Coordinate(F7).Y.ShouldBeEquivalentTo((int)'F');
+            new Coordinate(F7).Y.ShouldBeEquivalentTo(6);
         }
         
         [TestCase(B2, 2)]

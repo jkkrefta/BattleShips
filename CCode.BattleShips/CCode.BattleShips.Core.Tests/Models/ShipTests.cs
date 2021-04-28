@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using CCode.BattleShips.Core.Enums;
 using CCode.BattleShips.Core.Exceptions;
 using CCode.BattleShips.Core.Models;
 using NUnit.Framework;
 using Shouldly;
 
-namespace CCode.BattleShips.Core.Tests
+namespace CCode.BattleShips.Core.Tests.Models
 {
     public class ShipTests
     {
@@ -15,11 +14,47 @@ namespace CCode.BattleShips.Core.Tests
         private readonly Coordinate _c3 = new("C3");
         private readonly Coordinate _c4 = new("C4");
         private readonly Coordinate _c5 = new("C5");
+        private readonly string _dropship = "Dropship";
 
         [SetUp]
         public void Setup()
         {
-            _ship = new Ship(ShipType.Destroyer, new List<Coordinate> {_c2, _c3, _c4, _c5});
+            _ship = new Ship(_dropship, new List<Coordinate> {_c2, _c3, _c4, _c5});
+        }
+
+        [Test]
+        public void Ship_GivenNullName_Throws()
+        {
+            Should.Throw<InvalidShipConstructionException>(() => new Ship(null, null));
+        }
+        
+        [Test]
+        public void Ship_GivenEmptyName_Throws()
+        {
+            Should.Throw<InvalidShipConstructionException>(() => new Ship(string.Empty, null));
+        }
+        
+        [Test]
+        public void Ship_GivenNullCoordinates_Throws()
+        {
+            Should.Throw<InvalidShipConstructionException>(() => new Ship(_dropship, null));
+        }
+        
+        [Test]
+        public void Ship_GivenEmptyCoordinates_Throws()
+        {
+            Should.Throw<InvalidShipConstructionException>(() => new Ship(_dropship, new List<Coordinate>()));
+        }
+        
+        [Test]
+        public void Ship_GivenNameAndCoordinates_CreatesInstance()
+        {
+            var coordinates = new List<Coordinate>{_c2};
+            var ship = new Ship(_dropship, coordinates);
+            ship.Name.ShouldBe(_dropship);
+            ship.Coordinates.ShouldBe(coordinates);
+            ship.Hits.ShouldBeEmpty();
+            ship.IsSunk.ShouldBeFalse();
         }
         
         [Test]

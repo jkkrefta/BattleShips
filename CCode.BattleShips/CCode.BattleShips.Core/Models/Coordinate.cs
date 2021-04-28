@@ -5,34 +5,39 @@ namespace CCode.BattleShips.Core.Models
 {
     public record Coordinate
     {
+        private const int OnePositionBeforeCapitalAInAscii = 64;
         public string Label { get; }
+
+        public Coordinate(int x, int y) : this($"{(char)(OnePositionBeforeCapitalAInAscii + y)}{x}")
+        {
+        }
 
         public Coordinate(string label)
         {
-            IsNotNullOrEmpty(label);
-            IsNoLongerThan3Chars(label);
-            MatchesLabelRules(label);
+            ThrowIfNullOrEmpty(label);
+            ThrowIfLongerThan3Chars(label);
+            ThrowIfDoesntMatchLabelRules(label);
             Label = label;
         }
 
-        public int Y => Label[0];
+        public int Y => Label[0] - OnePositionBeforeCapitalAInAscii;
         public int X => int.Parse(Label[1..]);
 
         public override string ToString() => Label;
 
-        private static void IsNotNullOrEmpty(string label)
+        private static void ThrowIfNullOrEmpty(string label)
         {
             if (string.IsNullOrEmpty(label))
-                throw new InvalidCoordinateException($"label was {label}");
+                throw new InvalidCoordinateException($"{nameof(label)} was {label}");
         }
 
-        private static void IsNoLongerThan3Chars(string label)
+        private static void ThrowIfLongerThan3Chars(string label)
         {
             if (label.Length > 3)
                 throw new InvalidCoordinateException($"{label} is too long. Expected example: B10, C6");
         }
 
-        private static void MatchesLabelRules(string label)
+        private static void ThrowIfDoesntMatchLabelRules(string label)
         {
             switch (label.Length)
             {

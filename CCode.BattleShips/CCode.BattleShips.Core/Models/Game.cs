@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using CCode.BattleShips.Core.DTO;
 using CCode.BattleShips.Core.Enums;
 using CCode.BattleShips.Core.Exceptions;
@@ -7,89 +7,90 @@ namespace CCode.BattleShips.Core.Models
 {
     public class Game
     {
-        public Waters HumanPlayer;
-        public Waters ComputerPlayer;
-        public GameState CurrentGameState;
-        public Queue<GameState> GameStateQueue;
-        
-        public void Initialize()
-        {
-            HumanPlayer = new Waters();
-            ComputerPlayer = new Waters();
-            CurrentGameState = new GameState(GamePhase.Initializing, PlayerType.None);
-            GameStateQueue = new Queue<GameState>();
-        }
+        public Waters HumanWaters = new();
+        public Waters ComputerWaters = new();
+        public GameState CurrentState = new(GamePhase.Initializing, PlayerType.None);
 
-        public GameState NextState() => CurrentGameState = GameStateQueue.Dequeue();
-
-        public Waters GetCurrentPlayersWaters()
+        public ShotResult PlaceShoot(Coordinate target)
         {
-            switch (CurrentGameState.Player)
+            if (CurrentState.Phase != GamePhase.PlayersAction)
             {
-                case PlayerType.ComputerPlayer:
-                    return ComputerPlayer;
-                case PlayerType.HumanPlayer:
-                    return HumanPlayer;
-                default:
-                    throw new InvalidGameStateException(
-                        "Current game state has no designated player. Cannot retrieve current players waters");
-            }
-        }
-        
-        public Waters GetOtherPlayersWaters()
-        {
-            switch (CurrentGameState.Player)
-            {
-                case PlayerType.HumanPlayer:
-                    return ComputerPlayer;
-                case PlayerType.ComputerPlayer:
-                    return HumanPlayer;
-                default:
-                    throw new InvalidGameStateException(
-                        "Current game state has no designated player. Cannot retrieve current players waters");
-            }
-        }
-
-        public void EnqueueNextPlayersAction()
-        {
-            if (CurrentGameState.Player == PlayerType.ComputerPlayer)
-            {
-                EnqueuePlayersAction(PlayerType.HumanPlayer);
-            }
-
-            if (CurrentGameState.Player == PlayerType.HumanPlayer)
-            {
-                EnqueuePlayersAction(PlayerType.ComputerPlayer);
+                throw new InvalidGameStateException("");
             }
             
-            throw new InvalidGameStateException(
-                "Current game state has no designated player. Enqueue next players action");
-        }
-
-        public void EnqueuePlacingShipsForNextPlayer()
-        {
-            if (CurrentGameState.Player == PlayerType.ComputerPlayer)
+            if (CurrentState.Player == PlayerType.ComputerPlayer)
             {
-                EnqueueGameState(new GameState(GamePhase.PlacingShips, PlayerType.HumanPlayer));
-            }
-
-            if (CurrentGameState.Player == PlayerType.HumanPlayer)
-            {
-                EnqueueGameState(new GameState(GamePhase.PlacingShips, PlayerType.ComputerPlayer));
+                return HumanWaters.PlaceShot(target);
             }
             
-            throw new InvalidGameStateException(
-                "Current game state has no designated player. Enqueue next players ship placement");
+            if (CurrentState.Player == PlayerType.HumanPlayer)
+            {
+                return ComputerWaters.PlaceShot(target);
+            }
+            
+            throw new InvalidGameStateException("");
+        }
+        
+        public GameState GetNextState(ShotResult shotResult)
+        {
+            if (CurrentState.Phase == GamePhase.Victory || CurrentState.Phase == GamePhase.Initializing)
+                throw new InvalidGameStateException("");
+
+            if (CurrentState.Player == PlayerType.None)
+                throw new InvalidGameStateException("");
+
+            switch (shotResult.HitType)
+            {
+                case HitType.Miss:
+                    return new GameState(GamePhase.PlayersAction, GetOtherPlayer());
+                case HitType.Hit:
+                    return new GameState(GamePhase.PlayersAction, CurrentState.Player);
+                case HitType.SunkShip:
+                {
+                    var otherPlayerWaters = GetOtherPlayerWaters();
+                    var anyShipLeft = otherPlayerWaters.Ships.Any(ship => !ship.IsSunk);
+                    return anyShipLeft 
+                        ? new GameState(GamePhase.PlayersAction, CurrentState.Player) 
+                        : new GameState(GamePhase.Victory, CurrentState.Player);
+                }
+                default:
+                    throw new InvalidGameStateException("");
+            }
         }
 
+        public bool CoordinateContainsShip(PlayerType player, Coordinate coordinate)
+        {
+            return GetPlayerWaters(player).Ships.Any(ship => ship.IsWithinShipCoordinates(coordinate));
+        }
 
-        public void EnqueuePlacingShipsForPlayer(PlayerType player) => EnqueueGameState(new GameState(GamePhase.PlacingShips, player));
-        public void EnqueueCurrentPlayersAction() => EnqueuePlayersAction(CurrentGameState.Player);
-        public void EnqueueEvaluatingCurrentPlayersAction() => EnqueueGameState(new GameState(GamePhase.EvaluatingPlayersAction, CurrentGameState.Player));
-        public void EnqueueCheckingVictoryConditionsCurrentPlayersAction() => EnqueueGameState(new GameState(GamePhase.CheckingVictoryConditions, CurrentGameState.Player));
-        public void EnqueueVictory() => EnqueueGameState(new GameState(GamePhase.Victory, CurrentGameState.Player));
-
-        private void EnqueuePlayersAction(PlayerType player) => EnqueueGameState(new GameState(GamePhase.PlayersAction, player));
-        private void EnqueueGameState(GameState gameState) => GameStateQueue.Enqueue(gameState);
+        private PlayerType GetOtherPlayer()
+        {
+            return CurrentState.Player switch
+            {
+                PlayerType.ComputerPlayer => PlayerType.HumanPlayer,
+                PlayerType.HumanPlayer => PlayerType.ComputerPlayer,
+                _ => throw new InvalidGameStateException("")
+            };
+        }
+        
+        private Waters GetOtherPlayerWaters()
+        {
+            return CurrentState.Player switch
+            {
+                PlayerType.ComputerPlayer => HumanWaters,
+                PlayerType.HumanPlayer => ComputerWaters,
+                _ => throw new InvalidGameStateException("")
+            };
+        }
+        
+        private Waters GetPlayerWaters(PlayerType player)
+        {
+            return player switch
+            {
+                PlayerType.ComputerPlayer => ComputerWaters,
+                PlayerType.HumanPlayer => HumanWaters,
+                _ => throw new InvalidGameStateException("")
+            };
+        }
     }
 }
