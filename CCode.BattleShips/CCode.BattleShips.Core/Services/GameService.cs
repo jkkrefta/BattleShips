@@ -12,7 +12,7 @@ namespace CCode.BattleShips.Core.Services
         event Action<PlacedShotEventArgs> PlacedShot;
         event Action<GameStateChangedEventArgs> GameStateChanged;
         event Action<GameStateChangedEventArgs> GameEnded;
-        Game Game { get; }
+        Game Game { get; set; }
         PlayerType CurrentPlayer { get; }
         void CreateNewGame();
         void StartGame();
@@ -22,7 +22,7 @@ namespace CCode.BattleShips.Core.Services
 
     public class GameService : IGameService
     {
-        public Game Game { get; private set; }
+        public Game Game { get; set; }
         private readonly IGameFactory _gameFactory;
         public event Action<PlacedShotEventArgs> PlacedShot;
         public event Action<GameStateChangedEventArgs> GameStateChanged;
@@ -61,7 +61,7 @@ namespace CCode.BattleShips.Core.Services
             return Game.CoordinateContainsShip(player, coordinate);
         }
 
-        private void SetNextGameState(GameState gameState)
+        public void SetNextGameState(GameState gameState)
         {
             Game.CurrentState = gameState;
             OnGameStateChanged(new GameStateChangedEventArgs(gameState));
