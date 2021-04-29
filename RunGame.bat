@@ -1,0 +1,1 @@
+CCode.BattleShips\CCode.BattleShips.Console\bin\Debug\net5.0\CCode.BattleShips.Console.exe
